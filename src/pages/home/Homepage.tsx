@@ -26,19 +26,26 @@ const Homepage = () => {
     <div className="p-10">
       <h1 className="text-2xl font-bold mb-4">TODO List</h1>
       <Link to="/create">
-        <Button className="mb-4 py-3 bg-green-500 text-white rounded px-12" size={"lg"}>
+        <Button
+          className="mb-8 py-3 bg-green-500 text-white rounded px-12"
+          size={"lg"}
+        >
           Add Task
         </Button>
       </Link>
       <div className="space-y-4">
-        {tasks.map((task) => (
-          <TaskItem
-            key={task.id}
-            task={task}
-            onDelete={() => deleteTask(task.id)}
-            toggleCompletion={() => toggleCompletion(task)}
-          />
-        ))}
+        {tasks.length > 0 ? (
+          tasks.map((task) => (
+            <TaskItem
+              key={task.id}
+              task={task}
+              onDelete={() => deleteTask(task.id)}
+              toggleCompletion={() => toggleCompletion(task)}
+            />
+          ))
+        ) : (
+          <h1 className="text-2xl text-center font-semibold mt-12">There are no added tasks yet</h1>
+        )}
       </div>
     </div>
   );

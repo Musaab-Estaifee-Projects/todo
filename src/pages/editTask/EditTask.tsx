@@ -18,6 +18,13 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { updateTaskSchema } from "@/validators/updateTaskSchema";
 import { toast } from "@/hooks/use-toast";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 const EditTask = () => {
   const { id } = useParams<{ id: string }>();
@@ -31,6 +38,7 @@ const EditTask = () => {
     defaultValues: {
       title: taskToEdit?.title,
       description: taskToEdit?.description,
+      priority: taskToEdit?.priority,
     },
   });
 
@@ -47,7 +55,7 @@ const EditTask = () => {
   function onSubmit(data: z.infer<typeof updateTaskSchema>) {
     const updatedTasks = tasks.map((task) =>
       task.id === id
-        ? { ...task, title: data.title, description: data.description }
+        ? { ...task, title: data.title, description: data.description, priority: data.priority }
         : task
     );
 
@@ -98,6 +106,51 @@ const EditTask = () => {
                 </FormLabel>
                 <FormControl>
                   <Textarea placeholder="Update task details..." {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            control={form.control}
+            name="priority"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>
+                  Priority <span className="text-red-500">*</span>
+                </FormLabel>
+                <FormControl>
+                  <Select
+                    onValueChange={(value) => {
+                      field.onChange(value);
+                    }}
+                    defaultValue={field.value}
+                  >
+                    <SelectTrigger className="w-full">
+                      <SelectValue placeholder="Update Task's Priority" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="High">
+                        <div className="flex items-start justify-center gap-2">
+                          <div className="bg-red-500 rounded-full w-4 h-4 mt-0.5"></div>
+                          <span>High</span>
+                        </div>
+                      </SelectItem>
+                      <SelectItem value="Medium">
+                        <div className="flex items-start justify-center gap-2">
+                          <div className="bg-yellow-500 rounded-full w-4 h-4 mt-0.5"></div>
+                          <span>Medium</span>
+                        </div>
+                      </SelectItem>
+                      <SelectItem value="Low">
+                        <div className="flex items-start justify-center gap-2">
+                          <div className="bg-blue-500 rounded-full w-4 h-4 mt-0.5"></div>
+                          <span>Low</span>
+                        </div>
+                      </SelectItem>
+                    </SelectContent>
+                  </Select>
                 </FormControl>
                 <FormMessage />
               </FormItem>

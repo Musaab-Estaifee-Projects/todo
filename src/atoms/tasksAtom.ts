@@ -6,6 +6,7 @@ export type Task = {
   description: string;
   completed: boolean;
   createdAt: string;
+  priority: string;
 };
 
 const storedTasks = localStorage.getItem("tasks");

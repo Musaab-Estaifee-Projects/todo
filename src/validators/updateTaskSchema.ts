@@ -10,7 +10,10 @@ export const updateTaskSchema = z.object({
     .min(30, {
       message: "The description must be at least 30 characters length",
     })
-    .max(300, {
-      message: "The description must be at least 300 characters length",
+    .max(1000, {
+      message: "The description must be at least 1000 characters length",
     }),
+  priority: z
+    .string({ message: "Please select a priority for this task " })
+    .nonempty({ message: "Please select a priority for this task " }),
 });
